@@ -19,30 +19,37 @@ dependencies {
 sourceSets {
     create("v1_20_R4") {
         java.srcDir("src/v1_20_R4/java")
-        compileClasspath += sourceSets.main.get().compileClasspath
-        runtimeClasspath += sourceSets.main.get().runtimeClasspath
+        compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
     }
     create("v1_21_R1") {
         java.srcDir("src/v1_21_R1/java")
-        compileClasspath += sourceSets.main.get().compileClasspath
-        runtimeClasspath += sourceSets.main.get().runtimeClasspath
+        compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
     }
     create("v1_21_R2") {
         java.srcDir("src/v1_21_R2/java")
-        compileClasspath += sourceSets.main.get().compileClasspath
-        runtimeClasspath += sourceSets.main.get().runtimeClasspath
+        compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
     }
     create("v1_21_R3") {
         java.srcDir("src/v1_21_R3/java")
-        compileClasspath += sourceSets.main.get().compileClasspath
-        runtimeClasspath += sourceSets.main.get().runtimeClasspath
+        compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
     }
     create("v1_21_R4") {
         java.srcDir("src/v1_21_R4/java")
-        compileClasspath += sourceSets.main.get().compileClasspath
-        runtimeClasspath += sourceSets.main.get().runtimeClasspath
+        compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
     }
 }
+
+// Ensure version-specific compilations run after main
+tasks.named("compileV1_20_R4Java") { dependsOn("compileJava") }
+tasks.named("compileV1_21_R1Java") { dependsOn("compileJava") }
+tasks.named("compileV1_21_R2Java") { dependsOn("compileJava") }
+tasks.named("compileV1_21_R3Java") { dependsOn("compileJava") }
+tasks.named("compileV1_21_R4Java") { dependsOn("compileJava") }
 
 tasks.jar {
     from(sourceSets["v1_20_R4"].output)
