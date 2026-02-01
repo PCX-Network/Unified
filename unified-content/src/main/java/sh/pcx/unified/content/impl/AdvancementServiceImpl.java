@@ -116,7 +116,7 @@ public class AdvancementServiceImpl implements AdvancementService {
         String advKey = advancement.getKey();
 
         Map<String, Integer> criteriaProgress = data.criteriaProgress.computeIfAbsent(
-                advKey, _ -> new ConcurrentHashMap<>());
+                advKey, unused -> new ConcurrentHashMap<>());
 
         Trigger trigger = advancement.getCriteria().get(criterion);
         int required = getRequiredCount(trigger);
@@ -232,7 +232,7 @@ public class AdvancementServiceImpl implements AdvancementService {
 
         PlayerAdvancementData data = getPlayerData(player);
         Map<String, Integer> criteriaProgress = data.criteriaProgress.computeIfAbsent(
-                advancement.getKey(), _ -> new ConcurrentHashMap<>());
+                advancement.getKey(), unused -> new ConcurrentHashMap<>());
 
         criteriaProgress.put(criterion, Math.max(0, progress));
         checkAdvancementCompletion(player, advancement);
@@ -390,7 +390,7 @@ public class AdvancementServiceImpl implements AdvancementService {
     }
 
     private PlayerAdvancementData getPlayerData(UnifiedPlayer player) {
-        return playerData.computeIfAbsent(player.getUniqueId(), _ -> new PlayerAdvancementData());
+        return playerData.computeIfAbsent(player.getUniqueId(), unused -> new PlayerAdvancementData());
     }
 
     private void validateKey(String key) {

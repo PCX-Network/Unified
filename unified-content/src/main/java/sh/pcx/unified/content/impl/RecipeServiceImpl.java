@@ -184,7 +184,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     private Set<String> getDiscoveredRecipes(UUID playerId) {
-        return discoveredRecipes.computeIfAbsent(playerId, _ -> ConcurrentHashMap.newKeySet());
+        return discoveredRecipes.computeIfAbsent(playerId, unused -> ConcurrentHashMap.newKeySet());
     }
 
     private void validateKey(String key) {

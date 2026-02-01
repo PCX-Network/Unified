@@ -66,7 +66,7 @@ public interface CustomTrigger extends Trigger {
      */
     @NotNull
     default Trigger any() {
-        return matching(_ -> true);
+        return matching(unused -> true);
     }
 
     /**

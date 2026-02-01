@@ -466,7 +466,7 @@ class LootTableModifierImpl implements LootTableModifier {
     @Override
     @NotNull
     public LootTableModifier addEntry(@NotNull String poolName, @NotNull LootEntry entry) {
-        entriesToAdd.computeIfAbsent(poolName, _ -> new ArrayList<>()).add(entry);
+        entriesToAdd.computeIfAbsent(poolName, unused -> new ArrayList<>()).add(entry);
         return this;
     }
 
@@ -480,7 +480,7 @@ class LootTableModifierImpl implements LootTableModifier {
     @Override
     @NotNull
     public LootTableModifier removeEntry(@NotNull String poolName, @NotNull String itemType) {
-        poolEntriesToRemove.computeIfAbsent(poolName, _ -> new HashSet<>()).add(itemType);
+        poolEntriesToRemove.computeIfAbsent(poolName, unused -> new HashSet<>()).add(itemType);
         return this;
     }
 
@@ -494,7 +494,7 @@ class LootTableModifierImpl implements LootTableModifier {
     @Override
     @NotNull
     public LootTableModifier addCondition(@NotNull String poolName, @NotNull LootCondition condition) {
-        poolConditionsToAdd.computeIfAbsent(poolName, _ -> new ArrayList<>()).add(condition);
+        poolConditionsToAdd.computeIfAbsent(poolName, unused -> new ArrayList<>()).add(condition);
         return this;
     }
 
@@ -508,7 +508,7 @@ class LootTableModifierImpl implements LootTableModifier {
     @Override
     @NotNull
     public LootTableModifier addFunction(@NotNull String itemType, @NotNull LootFunction function) {
-        entryFunctionsToAdd.computeIfAbsent(itemType, _ -> new ArrayList<>()).add(function);
+        entryFunctionsToAdd.computeIfAbsent(itemType, unused -> new ArrayList<>()).add(function);
         return this;
     }
 

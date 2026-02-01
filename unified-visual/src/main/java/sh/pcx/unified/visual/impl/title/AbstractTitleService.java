@@ -94,7 +94,7 @@ public abstract class AbstractTitleService implements TitleService {
                                      @NotNull Collection<? extends UnifiedPlayer> players) {
         activeActionBars.put(id, state);
         for (UnifiedPlayer player : players) {
-            playerActionBars.computeIfAbsent(player.getUniqueId(), _ -> ConcurrentHashMap.newKeySet())
+            playerActionBars.computeIfAbsent(player.getUniqueId(), unused -> ConcurrentHashMap.newKeySet())
                     .add(id);
         }
     }

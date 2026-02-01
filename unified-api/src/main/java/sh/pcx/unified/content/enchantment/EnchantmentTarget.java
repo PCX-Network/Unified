@@ -130,7 +130,7 @@ public sealed interface EnchantmentTarget permits
      * Predefined enchantment target categories.
      */
     enum PredefinedTarget implements EnchantmentTarget {
-        ALL("all", _ -> true),
+        ALL("all", type -> true),
 
         WEAPON("weapon", type ->
                 type.endsWith("_sword") || type.endsWith("_axe")),

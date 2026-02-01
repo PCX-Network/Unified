@@ -223,7 +223,7 @@ public class EnchantmentServiceImpl implements EnchantmentService {
         }
 
         Instant expiry = Instant.now().plus(cooldownDuration);
-        cooldowns.computeIfAbsent(playerId, _ -> new ConcurrentHashMap<>())
+        cooldowns.computeIfAbsent(playerId, unused -> new ConcurrentHashMap<>())
                 .put(enchantment.getKey(), expiry);
     }
 
@@ -311,7 +311,7 @@ class EnchantmentBuilderImpl implements EnchantmentBuilder {
     private boolean curse = false;
     private final Set<String> conflicts = new HashSet<>();
     private Duration cooldown;
-    private IntFunction<Double> chanceFunction = _ -> 1.0;
+    private IntFunction<Double> chanceFunction = unused -> 1.0;
     private Integer tickInterval;
 
     // Trigger handlers

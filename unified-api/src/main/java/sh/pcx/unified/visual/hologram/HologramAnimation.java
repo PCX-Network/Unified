@@ -430,7 +430,7 @@ public sealed interface HologramAnimation permits
      * Builder for custom animations.
      */
     final class CustomBuilder {
-        private Function<Float, Component> updater = _ -> Component.empty();
+        private Function<Float, Component> updater = unused -> Component.empty();
         private Duration duration = Duration.ofSeconds(1);
         private boolean loop = true;
         private int lineIndex = -1;
