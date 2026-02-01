@@ -46,10 +46,15 @@ allprojects {
 }
 
 subprojects {
+    // Skip examples from publishing
+    val isExample = project.path.startsWith(":examples")
+
     apply(plugin = "java")
     apply(plugin = "java-library")
-    apply(plugin = "maven-publish")
-    apply(plugin = "signing")
+    if (!isExample) {
+        apply(plugin = "maven-publish")
+        apply(plugin = "signing")
+    }
 
     java {
         toolchain {
@@ -126,66 +131,70 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
+    if (!isExample) {
+        publishing {
+            publications {
+                create<MavenPublication>("maven") {
+                    from(components["java"])
 
-                pom {
-                    name.set(project.name)
-                    description.set("UnifiedPlugin API - ${project.name}")
-                    url.set("https://github.com/PCX-Network/Unified")
-                    inceptionYear.set("2025")
-
-                    licenses {
-                        license {
-                            name.set("MIT License")
-                            url.set("https://opensource.org/licenses/MIT")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id.set("supatuck")
-                            name.set("Supatuck")
-                        }
-                    }
-
-                    scm {
-                        connection.set("scm:git:git://github.com/PCX-Network/Unified.git")
-                        developerConnection.set("scm:git:ssh://github.com/PCX-Network/Unified.git")
+                    pom {
+                        name.set(project.name)
+                        description.set("UnifiedPlugin API - ${project.name}")
                         url.set("https://github.com/PCX-Network/Unified")
-                    }
+                        inceptionYear.set("2025")
 
-                    issueManagement {
-                        system.set("GitHub Issues")
-                        url.set("https://github.com/PCX-Network/Unified/issues")
+                        licenses {
+                            license {
+                                name.set("MIT License")
+                                url.set("https://opensource.org/licenses/MIT")
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id.set("supatuck")
+                                name.set("Supatuck")
+                            }
+                        }
+
+                        scm {
+                            connection.set("scm:git:git://github.com/PCX-Network/Unified.git")
+                            developerConnection.set("scm:git:ssh://github.com/PCX-Network/Unified.git")
+                            url.set("https://github.com/PCX-Network/Unified")
+                        }
+
+                        issueManagement {
+                            system.set("GitHub Issues")
+                            url.set("https://github.com/PCX-Network/Unified/issues")
+                        }
                     }
                 }
             }
-        }
 
-        repositories {
-            maven {
-                name = "Reposilite"
-                val releasesRepoUrl = uri("https://repo.pcx.sh/releases")
-                val snapshotsRepoUrl = uri("https://repo.pcx.sh/snapshots")
-                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-                credentials {
-                    username = getReposiliteUsername()
-                    password = getReposiliteToken()
+            repositories {
+                maven {
+                    name = "Reposilite"
+                    val releasesRepoUrl = uri("https://repo.pcx.sh/releases")
+                    val snapshotsRepoUrl = uri("https://repo.pcx.sh/snapshots")
+                    url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+                    credentials {
+                        username = getReposiliteUsername()
+                        password = getReposiliteToken()
+                    }
                 }
             }
         }
     }
 
-    signing {
-        val signingKey = System.getenv("GPG_SIGNING_KEY") ?: project.findProperty("signing.key") as String?
-        val signingPassword = System.getenv("GPG_SIGNING_PASSWORD") ?: project.findProperty("signing.password") as String?
+    if (!isExample) {
+        signing {
+            val signingKey = System.getenv("GPG_SIGNING_KEY") ?: project.findProperty("signing.key") as String?
+            val signingPassword = System.getenv("GPG_SIGNING_PASSWORD") ?: project.findProperty("signing.password") as String?
 
-        if (signingKey != null && signingPassword != null) {
-            useInMemoryPgpKeys(signingKey, signingPassword)
-            sign(publishing.publications["maven"])
+            if (signingKey != null && signingPassword != null) {
+                useInMemoryPgpKeys(signingKey, signingPassword)
+                sign(publishing.publications["maven"])
+            }
         }
     }
 }
