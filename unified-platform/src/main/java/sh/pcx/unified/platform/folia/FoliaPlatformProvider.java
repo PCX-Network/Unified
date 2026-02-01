@@ -93,8 +93,8 @@ public final class FoliaPlatformProvider implements PlatformProvider {
 
     @Override
     public int getPriority() {
-        // Higher priority than Paper provider
-        return 100;
+        // Higher priority than Paper provider (100) since Folia is more specific
+        return 150;
     }
 
     @Override

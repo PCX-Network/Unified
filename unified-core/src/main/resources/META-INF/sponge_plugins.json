@@ -1,0 +1,35 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "MIT",
+  "plugins": [
+    {
+      "id": "unifiedpluginapi",
+      "name": "UnifiedPlugin API",
+      "version": "${version}",
+      "entrypoint": "sh.pcx.unified.platform.sponge.SpongeUnifiedPlugin",
+      "description": "Cross-platform Minecraft plugin framework providing unified abstractions",
+      "links": {
+        "homepage": "https://github.com/PCX-Network/Unified",
+        "source": "https://github.com/PCX-Network/Unified",
+        "issues": "https://github.com/PCX-Network/Unified/issues"
+      },
+      "contributors": [
+        {
+          "name": "Supatuck",
+          "description": "Lead Developer"
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "spongeapi",
+          "version": "11.0.0",
+          "load-order": "BEFORE",
+          "optional": false
+        }
+      ]
+    }
+  ]
+}

@@ -16,7 +16,7 @@
  * <ul>
  *   <li>{@link sh.pcx.unified.platform.paper.PaperPlatform} - Platform detection and information</li>
  *   <li>{@link sh.pcx.unified.platform.paper.PaperPlatformProvider} - SPI provider implementation</li>
- *   <li>{@link sh.pcx.unified.platform.paper.PaperUnifiedPlugin} - JavaPlugin base class</li>
+ *   <li>{@link sh.pcx.unified.platform.paper.BukkitUnifiedPlugin} - JavaPlugin base class for Bukkit platforms</li>
  * </ul>
  *
  * <h3>Player Classes</h3>

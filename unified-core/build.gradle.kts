@@ -93,7 +93,7 @@ tasks.runServer {
     jvmArgs("-Xms2G", "-Xmx2G")
 }
 
-// Process resources for plugin.yml
+// Process resources for plugin descriptors
 tasks.processResources {
     val props = mapOf(
         "version" to project.version,
@@ -102,7 +102,7 @@ tasks.processResources {
         "apiVersion" to "1.21"
     )
     inputs.properties(props)
-    filesMatching(listOf("plugin.yml", "paper-plugin.yml")) {
+    filesMatching(listOf("plugin.yml", "paper-plugin.yml", "META-INF/sponge_plugins.json")) {
         expand(props)
     }
 }

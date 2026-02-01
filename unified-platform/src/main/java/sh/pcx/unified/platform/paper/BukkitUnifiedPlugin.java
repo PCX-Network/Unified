@@ -6,39 +6,41 @@ package sh.pcx.unified.platform.paper;
 
 import sh.pcx.unified.PluginMeta;
 import sh.pcx.unified.UnifiedPlugin;
+import sh.pcx.unified.platform.PlatformProvider;
 import sh.pcx.unified.service.ServiceRegistry;
+import sh.pcx.unified.service.SimpleServiceRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 
 /**
  * JavaPlugin subclass that bridges Bukkit's plugin lifecycle to {@link UnifiedPlugin}.
  *
  * <p>This class serves as the base class for plugins that want to use the UnifiedPlugin API
- * on Paper/Spigot servers. It handles the translation between Bukkit's plugin lifecycle
- * events and the unified lifecycle methods.
+ * on Bukkit-based servers (Spigot, Paper, Folia). It handles the translation between Bukkit's
+ * plugin lifecycle events and the unified lifecycle methods.
  *
  * <h2>Usage</h2>
  * <p>Plugins should extend this class instead of {@link JavaPlugin}:
  * <pre>{@code
- * public class MyPlugin extends PaperUnifiedPlugin {
+ * public class MyPlugin extends BukkitUnifiedPlugin {
  *
  *     @Override
- *     public void onEnable() {
+ *     public void onPluginEnable() {
  *         getLogger().info("Plugin enabled!");
  *         // Register commands, listeners, etc.
  *     }
  *
  *     @Override
- *     public void onDisable() {
+ *     public void onPluginDisable() {
  *         getLogger().info("Plugin disabled!");
  *         // Save data, cleanup resources
  *     }
@@ -61,19 +63,19 @@ import java.util.logging.Level;
  * @see UnifiedPlugin
  * @see JavaPlugin
  */
-public abstract class PaperUnifiedPlugin extends JavaPlugin {
+public abstract class BukkitUnifiedPlugin extends JavaPlugin {
 
     private final UnifiedPluginBridge unifiedBridge;
 
     /**
-     * Creates a new PaperUnifiedPlugin.
+     * Creates a new BukkitUnifiedPlugin.
      *
      * <p>This constructor initializes the unified plugin bridge that handles
      * lifecycle management.
      *
      * @since 1.0.0
      */
-    public PaperUnifiedPlugin() {
+    public BukkitUnifiedPlugin() {
         this.unifiedBridge = new UnifiedPluginBridge(this);
     }
 
@@ -208,31 +210,34 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
     }
 
     /**
-     * Internal bridge class that wraps the PaperUnifiedPlugin as a UnifiedPlugin.
+     * Internal bridge class that wraps the BukkitUnifiedPlugin as a UnifiedPlugin.
      *
      * <p>This class handles the initialization and lifecycle of the unified plugin
      * abstraction layer.
      */
     public static final class UnifiedPluginBridge extends UnifiedPlugin {
 
-        private final PaperUnifiedPlugin paperPlugin;
+        private final BukkitUnifiedPlugin bukkitPlugin;
         private PluginMeta meta;
 
         /**
-         * Creates a new bridge for the given Paper plugin.
+         * Creates a new bridge for the given Bukkit plugin.
          *
-         * @param paperPlugin the Paper plugin to wrap
+         * @param bukkitPlugin the Bukkit plugin to wrap
          */
-        UnifiedPluginBridge(@NotNull PaperUnifiedPlugin paperPlugin) {
-            this.paperPlugin = paperPlugin;
+        UnifiedPluginBridge(@NotNull BukkitUnifiedPlugin bukkitPlugin) {
+            this.bukkitPlugin = bukkitPlugin;
         }
 
         /**
          * Initializes the bridge with plugin metadata.
          */
         void initialize() {
+            // Bootstrap platform if not already initialized
+            ensurePlatformInitialized();
+
             // Create plugin metadata from Bukkit's plugin description
-            var description = paperPlugin.getDescription();
+            var description = bukkitPlugin.getDescription();
 
             this.meta = new PluginMeta(
                     description.getName(),
@@ -246,15 +251,88 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
             );
 
             // Initialize the unified plugin
-            // Note: ServiceRegistry should be obtained from the global API instance
-            // For now, we pass null and it should be set up by the main API plugin
             super.initialize(
                     meta,
-                    paperPlugin.getLogger(),
-                    paperPlugin.getDataFolder().toPath(),
+                    bukkitPlugin.getLogger(),
+                    bukkitPlugin.getDataFolder().toPath(),
                     PaperConversions.getUnifiedServer(),
                     PaperConversions.getServiceRegistry()
             );
+        }
+
+        /**
+         * Ensures the platform is initialized, bootstrapping if necessary.
+         * This allows the first UnifiedPlugin to load the platform.
+         */
+        private void ensurePlatformInitialized() {
+            if (PaperConversions.getProvider() != null) {
+                // Already initialized
+                return;
+            }
+
+            bukkitPlugin.getLogger().info("Bootstrapping Unified platform...");
+
+            try {
+                // Find compatible provider using ServiceLoader
+                PlatformProvider provider = findCompatibleProvider();
+                if (provider == null) {
+                    throw new IllegalStateException("No compatible PlatformProvider found");
+                }
+
+                bukkitPlugin.getLogger().info("Using platform provider: " + provider.getClass().getSimpleName());
+
+                // Initialize the provider
+                provider.initialize();
+
+                // Set up service registry if not already set
+                if (!isServiceRegistryInitialized()) {
+                    ServiceRegistry registry = new SimpleServiceRegistry();
+                    PaperConversions.setServiceRegistry(registry);
+                }
+
+                bukkitPlugin.getLogger().info("Platform bootstrapped successfully");
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to bootstrap platform", e);
+            }
+        }
+
+        /**
+         * Finds a compatible platform provider using ServiceLoader.
+         */
+        private PlatformProvider findCompatibleProvider() {
+            ServiceLoader<PlatformProvider> loader = ServiceLoader.load(
+                    PlatformProvider.class,
+                    getClass().getClassLoader()
+            );
+
+            PlatformProvider best = null;
+            int bestPriority = Integer.MIN_VALUE;
+
+            for (PlatformProvider provider : loader) {
+                try {
+                    if (provider.isCompatible() && provider.getPriority() > bestPriority) {
+                        best = provider;
+                        bestPriority = provider.getPriority();
+                    }
+                } catch (Exception e) {
+                    bukkitPlugin.getLogger().log(Level.WARNING,
+                            "Error checking compatibility for provider: " + provider.getClass().getName(), e);
+                }
+            }
+
+            return best;
+        }
+
+        /**
+         * Checks if service registry is initialized.
+         */
+        private boolean isServiceRegistryInitialized() {
+            try {
+                PaperConversions.getServiceRegistry();
+                return true;
+            } catch (IllegalStateException e) {
+                return false;
+            }
         }
 
         /**
@@ -274,7 +352,7 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
          */
         @Override
         public void onEnable() {
-            paperPlugin.onPluginEnable();
+            bukkitPlugin.onPluginEnable();
         }
 
         /**
@@ -282,7 +360,7 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
          */
         @Override
         public void onDisable() {
-            paperPlugin.onPluginDisable();
+            bukkitPlugin.onPluginDisable();
         }
 
         /**
@@ -290,7 +368,7 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
          */
         @Override
         public void onReload() {
-            paperPlugin.onPluginReload();
+            bukkitPlugin.onPluginReload();
         }
 
         /**
@@ -303,13 +381,13 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
             }
 
             resourcePath = resourcePath.replace('\\', '/');
-            Path outPath = paperPlugin.getDataFolder().toPath().resolve(resourcePath);
+            Path outPath = bukkitPlugin.getDataFolder().toPath().resolve(resourcePath);
 
             if (!replace && Files.exists(outPath)) {
                 return;
             }
 
-            try (InputStream in = paperPlugin.getResource(resourcePath)) {
+            try (InputStream in = bukkitPlugin.getResource(resourcePath)) {
                 if (in == null) {
                     throw new IllegalArgumentException(
                             "The resource '" + resourcePath + "' cannot be found in the plugin JAR"
@@ -324,7 +402,7 @@ public abstract class PaperUnifiedPlugin extends JavaPlugin {
                     in.transferTo(out);
                 }
             } catch (IOException e) {
-                paperPlugin.getLogger().log(
+                bukkitPlugin.getLogger().log(
                         Level.SEVERE,
                         "Could not save resource " + resourcePath,
                         e

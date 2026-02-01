@@ -6,8 +6,6 @@ description: Cross-platform Minecraft plugin framework providing unified abstrac
 author: Supatuck
 website: https://github.com/PCX-Network/UnifiedPlugin-API
 folia-supported: true
-loader: sh.pcx.unified.core.loader.UnifiedPluginLoader
-bootstrapper: sh.pcx.unified.core.bootstrap.UnifiedBootstrapper
 
 dependencies:
   server:

@@ -126,6 +126,10 @@ public final class PaperPlatformProvider implements PlatformProvider {
         // Register the platform globally
         PlatformHolder.set(platform);
 
+        // Set up PaperConversions for static access
+        PaperConversions.setProvider(this);
+        PaperConversions.setServer(server);
+
         initialized = true;
     }
 
