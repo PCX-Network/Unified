@@ -1,0 +1,160 @@
+# ============================================================
+#  Economy Plugin Configuration
+#  Example plugin demonstrating UnifiedPlugin-API
+# ============================================================
+
+# Database configuration for storing economy data
+database:
+  # Database type: SQLITE, MYSQL, MARIADB, POSTGRESQL
+  type: SQLITE
+
+  # Database host (for MySQL/MariaDB/PostgreSQL)
+  host: localhost
+
+  # Database port
+  port: 3306
+
+  # Database name
+  database: economy
+
+  # Database username
+  username: root
+
+  # Database password
+  password: ""
+
+  # Table prefix for all economy tables
+  table-prefix: "eco_"
+
+  # Connection pool settings
+  pool:
+    # Maximum number of connections in the pool
+    maximum-pool-size: 10
+    # Minimum number of idle connections
+    minimum-idle: 2
+    # Connection timeout in milliseconds
+    connection-timeout: 30000
+    # Maximum connection lifetime in milliseconds
+    max-lifetime: 1800000
+    # Idle timeout in milliseconds
+    idle-timeout: 600000
+
+# Currency definitions
+# You can add as many currencies as you need
+currencies:
+  # Default dollar currency
+  - id: dollars
+    name-singular: Dollar
+    name-plural: Dollars
+    symbol: "$"
+    decimals: 2
+    format: "#,##0.00"
+    symbol-position: PREFIX
+    starting-balance: 100.0
+    min-balance: 0.0
+    max-balance: 999999999999999.0
+    default: true
+
+  # Coins currency (no decimals)
+  - id: coins
+    name-singular: Coin
+    name-plural: Coins
+    symbol: "C"
+    decimals: 0
+    format: "#,##0"
+    symbol-position: SUFFIX_SPACE
+    starting-balance: 0.0
+    min-balance: 0.0
+    max-balance: 999999999999999.0
+    default: false
+
+  # Premium gems currency
+  - id: gems
+    name-singular: Gem
+    name-plural: Gems
+    symbol: "\u2666"
+    decimals: 0
+    format: "#,##0"
+    symbol-position: PREFIX_SPACE
+    starting-balance: 0.0
+    min-balance: 0.0
+    max-balance: 100000.0
+    default: false
+
+# General economy settings
+settings:
+  # Enable transaction logging to database
+  log-transactions: true
+
+  # Days to retain transaction history (0 = forever)
+  transaction-retention-days: 30
+
+  # Minimum transfer amount
+  min-transfer-amount: 0.01
+
+  # Maximum transfer amount (0 = unlimited)
+  max-transfer-amount: 0.0
+
+  # Transfer fee percentage (0-100)
+  # Set to 0 to disable fees
+  transfer-fee-percent: 0.0
+
+  # Number of entries to show in baltop
+  baltop-entries: 10
+
+  # Cache duration for baltop in seconds
+  baltop-cache-duration: 60
+
+  # Enable the economy GUI (/eco gui)
+  enable-gui: true
+
+# Message templates
+# Uses MiniMessage format: https://docs.advntr.dev/minimessage/format.html
+messages:
+  # Prefix for all messages
+  prefix: "<gradient:#FFD700:#FFA500>[Economy]</gradient> "
+
+  # Balance display message
+  balance: "<gray>Your balance: <gold>{amount}</gold>"
+
+  # Balance display for specific currency
+  balance-currency: "<gray>Your <yellow>{currency}</yellow> balance: <gold>{amount}</gold>"
+
+  # Other player's balance
+  balance-other: "<gray>{player}'s balance: <gold>{amount}</gold>"
+
+  # Payment sent message
+  pay-sent: "<green>You sent <gold>{amount}</gold> to <yellow>{player}</yellow>"
+
+  # Payment received message
+  pay-received: "<green>You received <gold>{amount}</gold> from <yellow>{player}</yellow>"
+
+  # Insufficient funds message
+  insufficient-funds: "<red>You don't have enough funds! Balance: <gold>{balance}</gold>"
+
+  # Invalid amount message
+  invalid-amount: "<red>Invalid amount specified!"
+
+  # Cannot pay self message
+  cannot-pay-self: "<red>You cannot pay yourself!"
+
+  # Player not found message
+  player-not-found: "<red>Player not found: <yellow>{player}</yellow>"
+
+  # Balance top header
+  baltop-header: "<gold><bold>Top Balances</bold></gold>"
+
+  # Balance top entry format
+  baltop-entry: "<gray>{rank}. <yellow>{player}</yellow> - <gold>{amount}</gold>"
+
+  # Balance top footer showing player's rank
+  baltop-footer: "<gray>Your rank: <yellow>#{rank}</yellow>"
+
+  # Economy set message (admin)
+  economy-set: "<green>Set <yellow>{player}</yellow>'s balance to <gold>{amount}</gold>"
+
+  # Economy give message (admin)
+  economy-give: "<green>Gave <gold>{amount}</gold> to <yellow>{player}</yellow>"
+
+  # Economy take message (admin)
+  economy-take: "<green>Took <gold>{amount}</gold> from <yellow>{player}</yellow>"

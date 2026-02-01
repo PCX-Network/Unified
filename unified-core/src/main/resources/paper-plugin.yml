@@ -1,0 +1,22 @@
+name: ${name}
+version: ${version}
+main: ${main}
+api-version: "${apiVersion}"
+description: Cross-platform Minecraft plugin framework providing unified abstractions
+author: Supatuck
+website: https://github.com/PCX-Network/UnifiedPlugin-API
+folia-supported: true
+loader: sh.pcx.unified.core.loader.UnifiedPluginLoader
+bootstrapper: sh.pcx.unified.core.bootstrap.UnifiedBootstrapper
+
+dependencies:
+  server:
+    Vault:
+      load: BEFORE
+      required: false
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+    LuckPerms:
+      load: BEFORE
+      required: false

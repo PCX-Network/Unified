@@ -1,0 +1,71 @@
+# Minigame Plugin Configuration
+# UnifiedPlugin API Example
+
+# General Settings
+general:
+  # Enable debug mode for verbose logging
+  debug: false
+  # Prefix for chat messages
+  prefix: "&6[Minigame] &r"
+
+# Game Settings
+game:
+  # Minimum players required to start a game
+  min-players: 2
+  # Maximum players allowed per game
+  max-players: 16
+  # Countdown duration in seconds before game starts
+  countdown-seconds: 30
+  # Game duration in minutes
+  duration-minutes: 10
+  # Respawn delay in seconds after death
+  respawn-delay-seconds: 5
+  # Allow players to join after game has started
+  allow-latejoin: true
+  # Time in seconds after game start that latejoin is allowed
+  latejoin-grace-period-seconds: 60
+
+# Arena Settings
+arena:
+  # Radius for arena detection (used for region setup)
+  detection-radius: 50
+  # Automatically save arena data periodically
+  auto-save: true
+  # Save interval in minutes
+  save-interval-minutes: 5
+
+# Scoreboard Settings
+scoreboard:
+  # Enable per-player scoreboards during games
+  enabled: true
+  # Scoreboard update interval in ticks (20 ticks = 1 second)
+  update-interval-ticks: 20
+  # Scoreboard title (supports color codes)
+  title: "&6&lMINIGAME"
+
+# Boss Bar Settings
+bossbar:
+  # Enable boss bar countdown/timer
+  enabled: true
+  # Boss bar color: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  color: YELLOW
+  # Boss bar style: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  style: SOLID
+
+# Hologram Leaderboard Settings
+leaderboards:
+  # Enable hologram leaderboards
+  enabled: true
+  # Number of top players to display
+  top-count: 10
+  # Update interval in minutes
+  update-interval-minutes: 5
+
+# Reward Settings
+rewards:
+  # Coins awarded per kill
+  per-kill: 10
+  # Coins awarded for winning
+  win-bonus: 100
+  # Coins awarded for participating (even if you lose)
+  participation: 25

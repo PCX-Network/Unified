@@ -1,0 +1,23 @@
+name: ${name}
+version: ${version}
+main: ${main}
+api-version: "${apiVersion}"
+load: STARTUP
+description: Cross-platform Minecraft plugin framework providing unified abstractions
+author: Supatuck
+website: https://github.com/PCX-Network/UnifiedPlugin-API
+prefix: UnifiedAPI
+folia-supported: true
+
+softdepend:
+  - Vault
+  - PlaceholderAPI
+  - LuckPerms
+
+libraries:
+  - com.google.inject:guice:7.0.0
+  - org.spongepowered:configurate-yaml:4.2.0
+  - com.zaxxer:HikariCP:7.0.2
+  - redis.clients:jedis:7.2.0
+  - org.mongodb:mongodb-driver-sync:5.5.0
+  - com.github.ben-manes.caffeine:caffeine:3.2.3

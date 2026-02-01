@@ -1,0 +1,74 @@
+# Minigame Plugin - UnifiedPlugin API Example
+# This file is processed by Gradle, variables are replaced during build
+
+name: ${name}
+version: ${version}
+main: ${main}
+description: ${description}
+author: Supatuck
+website: https://github.com/PCX-Network/Unified
+
+# API version for Paper
+api-version: '1.21'
+
+# Plugin load order
+load: POSTWORLD
+
+# Dependencies
+depend:
+  - UnifiedPluginAPI
+
+softdepend:
+  - PlaceholderAPI
+  - Vault
+
+# Commands
+commands:
+  arena:
+    description: Minigame arena commands
+    aliases: [mg, minigame]
+    usage: /<command> [subcommand] [args...]
+    permission: minigame.arena
+
+# Permissions
+permissions:
+  minigame.*:
+    description: Full minigame access
+    default: op
+    children:
+      minigame.arena: true
+      minigame.admin.*: true
+
+  minigame.arena:
+    description: Basic arena commands
+    default: true
+
+  minigame.admin.*:
+    description: All admin permissions
+    default: op
+    children:
+      minigame.admin.create: true
+      minigame.admin.delete: true
+      minigame.admin.setup: true
+      minigame.admin.manage: true
+      minigame.admin.teleport: true
+
+  minigame.admin.create:
+    description: Create new arenas
+    default: op
+
+  minigame.admin.delete:
+    description: Delete arenas
+    default: op
+
+  minigame.admin.setup:
+    description: Configure arena settings
+    default: op
+
+  minigame.admin.manage:
+    description: Enable/disable arenas
+    default: op
+
+  minigame.admin.teleport:
+    description: Teleport to arenas
+    default: op

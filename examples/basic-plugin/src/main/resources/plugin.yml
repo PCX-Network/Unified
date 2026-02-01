@@ -1,0 +1,168 @@
+# ============================================================================
+# BasicPlugin - Example Plugin for UnifiedPlugin API
+# ============================================================================
+# This is an example plugin.yml demonstrating proper configuration
+# for plugins built with the UnifiedPlugin API framework.
+# ============================================================================
+
+# Plugin name - must match the class name without "Plugin" suffix
+name: BasicPlugin
+
+# Plugin version - use semantic versioning (major.minor.patch)
+version: '${version}'
+
+# Main plugin class extending UnifiedPlugin
+main: sh.pcx.example.BasicPlugin
+
+# API version - required for Paper/Spigot 1.13+
+api-version: '1.21'
+
+# Plugin description shown in /plugins
+description: An example plugin demonstrating the UnifiedPlugin API framework
+
+# Plugin authors
+authors:
+  - Supatuck
+
+# Plugin website
+website: https://github.com/PCX-Network/UnifiedPlugin-API
+
+# Required plugin dependencies
+# The plugin will not load without these
+depend:
+  - UnifiedPluginAPI
+
+# Optional plugin dependencies
+# Enhanced functionality if present, but not required
+softdepend:
+  - Vault
+  - PlaceholderAPI
+  - LuckPerms
+
+# Plugins that should load after this one
+# Use this if other plugins depend on your API
+loadbefore: []
+
+# Plugin load order
+# STARTUP - Load before world
+# POSTWORLD - Load after world (default, recommended)
+load: POSTWORLD
+
+# Plugin prefix for logging
+prefix: BasicPlugin
+
+# Default permission for all commands
+# Players with this permission can use basic features
+default-permission: basicplugin.use
+
+# ============================================================================
+# Commands
+# ============================================================================
+# Note: When using the UnifiedPlugin command framework, commands are
+# auto-registered from @Command annotated classes. This section is
+# optional but recommended for documentation and fallback purposes.
+# ============================================================================
+
+commands:
+  basic:
+    description: Main command for BasicPlugin
+    usage: /<command> [subcommand] [args]
+    aliases:
+      - bp
+      - basicplugin
+    permission: basicplugin.use
+    permission-message: You don't have permission to use this command!
+
+  playerlist:
+    description: Open the player list GUI
+    usage: /<command>
+    aliases:
+      - plist
+      - players
+    permission: basicplugin.gui
+
+# ============================================================================
+# Permissions
+# ============================================================================
+# Define all permissions used by your plugin with descriptions.
+# This helps server admins configure permission plugins correctly.
+# ============================================================================
+
+permissions:
+  # Wildcard permission - grants all permissions
+  basicplugin.*:
+    description: Grants all BasicPlugin permissions
+    default: op
+    children:
+      basicplugin.use: true
+      basicplugin.gui: true
+      basicplugin.message: true
+      basicplugin.admin.*: true
+
+  # Basic usage permission
+  basicplugin.use:
+    description: Allows using the /basic command
+    default: true
+
+  # GUI permission
+  basicplugin.gui:
+    description: Allows opening GUI menus
+    default: true
+
+  # Message permission
+  basicplugin.message:
+    description: Allows sending private messages
+    default: true
+
+  # Admin wildcard
+  basicplugin.admin.*:
+    description: Grants all admin permissions
+    default: op
+    children:
+      basicplugin.admin: true
+      basicplugin.admin.reload: true
+      basicplugin.admin.debug: true
+      basicplugin.admin.give: true
+
+  # Admin base permission
+  basicplugin.admin:
+    description: Basic admin access
+    default: op
+
+  # Reload permission
+  basicplugin.admin.reload:
+    description: Allows reloading plugin configuration
+    default: op
+
+  # Debug permission
+  basicplugin.admin.debug:
+    description: Allows toggling debug mode
+    default: op
+
+  # Give permission
+  basicplugin.admin.give:
+    description: Allows using the give command
+    default: op
+
+# ============================================================================
+# Folia Support (Paper 1.19.4+)
+# ============================================================================
+# Set to true if your plugin is compatible with Folia's regionized threading.
+# Only set this if you've properly handled region-aware scheduling.
+# ============================================================================
+
+folia-supported: false
+
+# ============================================================================
+# Library Dependencies (Paper 1.16.5+)
+# ============================================================================
+# Paper can automatically download and load these libraries at runtime.
+# This reduces your JAR size and ensures latest versions.
+# ============================================================================
+
+libraries:
+  # These are provided by UnifiedPluginAPI, listed here as reference
+  # - net.kyori:adventure-api:4.18.0
+  # - net.kyori:adventure-text-minimessage:4.18.0
+  # - com.google.inject:guice:7.0.0
+  # - org.spongepowered:configurate-yaml:4.1.2

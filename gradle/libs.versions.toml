@@ -1,0 +1,148 @@
+[versions]
+# Core Framework
+guice = "7.0.0"
+configurate = "4.2.0"
+adventure = "4.26.1"
+
+# Database
+hikaricp = "7.0.2"
+caffeine = "3.2.3"
+jedis = "7.2.0"
+lettuce = "7.2.0.RELEASE"
+mongodb = "5.5.0"
+
+# Serialization
+gson = "2.13.2"
+
+# Logging
+slf4j = "2.0.17"
+
+# Testing
+junit = "6.0.2"
+mockk = "1.14.5"
+mockito = "5.17.0"
+assertj = "3.26.3"
+
+# Dependency Injection
+jakarta-inject = "2.0.1"
+javax-inject = "1"
+
+# Platform APIs
+paper-api = "1.21.4-R0.1-SNAPSHOT"
+sponge-api = "12.0.0"
+velocity-api = "3.4.0-SNAPSHOT"
+vault-api = "1.7.1"
+protocollib = "5.3.0"
+
+# Build Plugins
+shadow = "8.3.6"
+run-task = "3.0.2"
+
+# Annotations
+jetbrains-annotations = "26.0.2"
+checker-qual = "3.49.1"
+
+# Utilities
+commons-lang3 = "3.17.0"
+commons-io = "2.18.0"
+
+[libraries]
+# Core Framework
+guice = { module = "com.google.inject:guice", version.ref = "guice" }
+guice-assistedinject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }
+configurate-core = { module = "org.spongepowered:configurate-core", version.ref = "configurate" }
+configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
+configurate-hocon = { module = "org.spongepowered:configurate-hocon", version.ref = "configurate" }
+configurate-gson = { module = "org.spongepowered:configurate-gson", version.ref = "configurate" }
+configurate-extra-guice = { module = "org.spongepowered:configurate-extra-guice", version.ref = "configurate" }
+
+# Adventure (Text Components)
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+adventure-text-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
+adventure-text-serializer-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+adventure-text-serializer-plain = { module = "net.kyori:adventure-text-serializer-plain", version.ref = "adventure" }
+
+# Database
+hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
+lettuce = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
+mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync", version.ref = "mongodb" }
+mongodb-driver-reactivestreams = { module = "org.mongodb:mongodb-driver-reactivestreams", version.ref = "mongodb" }
+
+# Serialization
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+# Logging
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+# Testing
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+
+# Dependency Injection
+jakarta-inject = { module = "jakarta.inject:jakarta.inject-api", version.ref = "jakarta-inject" }
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
+
+# Platform APIs
+paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper-api" }
+sponge-api = { module = "org.spongepowered:spongeapi", version.ref = "sponge-api" }
+velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity-api" }
+vault-api = { module = "com.github.MilkBowl:VaultAPI", version.ref = "vault-api" }
+protocollib = { module = "com.comphenix.protocol:ProtocolLib", version.ref = "protocollib" }
+
+# Annotations
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual" }
+
+# Utilities
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+
+[bundles]
+adventure = [
+    "adventure-api",
+    "adventure-text-minimessage",
+    "adventure-text-serializer-gson",
+    "adventure-text-serializer-legacy",
+    "adventure-text-serializer-plain"
+]
+
+configurate = [
+    "configurate-core",
+    "configurate-yaml",
+    "configurate-hocon",
+    "configurate-gson"
+]
+
+guice = [
+    "guice",
+    "guice-assistedinject"
+]
+
+database = [
+    "hikaricp",
+    "jedis",
+    "lettuce",
+    "mongodb-driver-sync"
+]
+
+testing = [
+    "junit-jupiter",
+    "junit-jupiter-api",
+    "junit-jupiter-engine",
+    "junit-jupiter-params",
+    "mockito-core",
+    "mockito-junit-jupiter"
+]
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+run-task = { id = "xyz.jpenilla.run-paper", version.ref = "run-task" }

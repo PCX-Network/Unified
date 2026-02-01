@@ -1,0 +1,6 @@
+# Reposilite Credentials
+# Copy this file to local.properties and fill in your credentials
+# DO NOT commit local.properties to version control
+
+reposilite.username=deploy
+reposilite.token=YOUR_TOKEN_HERE

@@ -1,0 +1,78 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.java'
+      - '**/*.kt'
+      - '**/build.gradle.kts'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate Javadoc
+        run: ./gradlew aggregateJavadoc --no-daemon
+        continue-on-error: true
+
+      - name: Create docs directory structure
+        run: |
+          mkdir -p docs-site
+          if [ -d "build/docs/javadoc" ]; then
+            cp -r build/docs/javadoc/* docs-site/
+          fi
+          # Create index if not exists
+          if [ ! -f "docs-site/index.html" ]; then
+            echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unified API Documentation</title><style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;max-width:900px;margin:0 auto;padding:2rem;background:#0d1117;color:#c9d1d9}h1{color:#58a6ff}a{color:#58a6ff}.module{background:#161b22;padding:1rem;margin:0.5rem 0;border-radius:8px;border:1px solid #30363d}.module:hover{border-color:#58a6ff}</style></head><body><h1>Unified API Documentation</h1><p>Cross-platform Minecraft plugin development framework.</p><h2>Modules</h2><div class="module"><a href="unified-api/index.html">unified-api</a> - Core API interfaces</div><div class="module"><a href="unified-core/index.html">unified-core</a> - Core implementations</div><div class="module"><a href="unified-config/index.html">unified-config</a> - Configuration system</div><div class="module"><a href="unified-commands/index.html">unified-commands</a> - Command framework</div><div class="module"><a href="unified-scheduler/index.html">unified-scheduler</a> - Task scheduling</div><div class="module"><a href="unified-gui/index.html">unified-gui</a> - GUI framework</div><div class="module"><a href="unified-data/index.html">unified-data</a> - Data persistence</div><div class="module"><a href="unified-economy/index.html">unified-economy</a> - Economy integration</div><div class="module"><a href="unified-i18n/index.html">unified-i18n</a> - Internationalization</div><div class="module"><a href="unified-network/index.html">unified-network</a> - Networking</div><div class="module"><a href="unified-world/index.html">unified-world</a> - World utilities</div></body></html>' > docs-site/index.html
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs-site'
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-docs
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,68 @@
+name: ${name}
+version: ${version}
+main: sh.pcx.examples.economy.EconomyExamplePlugin
+api-version: '1.21'
+description: ${description}
+author: Supatuck
+website: https://github.com/PCX-Network/Unified
+
+load: STARTUP
+depend: []
+softdepend:
+  - Vault
+
+commands:
+  balance:
+    description: View your balance
+    aliases: [bal, money]
+    permission: economy.balance
+    usage: /<command> [player] [currency]
+
+  pay:
+    description: Send money to another player
+    aliases: [send, transfer]
+    permission: economy.pay
+    usage: /<command> <player> <amount> [currency]
+
+  baltop:
+    description: View the richest players
+    aliases: [balancetop, moneytop, richlist]
+    permission: economy.baltop
+    usage: /<command> [page] [currency]
+
+  eco:
+    description: Economy administration commands
+    aliases: [economy, econ]
+    permission: economy.admin
+    usage: /<command> <give|take|set|reset|stats|currencies> [args...]
+
+permissions:
+  economy.*:
+    description: All economy permissions
+    default: op
+    children:
+      economy.balance: true
+      economy.balance.others: true
+      economy.pay: true
+      economy.baltop: true
+      economy.admin: true
+
+  economy.balance:
+    description: View your own balance
+    default: true
+
+  economy.balance.others:
+    description: View other players' balances
+    default: op
+
+  economy.pay:
+    description: Send money to other players
+    default: true
+
+  economy.baltop:
+    description: View the balance leaderboard
+    default: true
+
+  economy.admin:
+    description: Economy administration access
+    default: op

@@ -1,0 +1,102 @@
+# Gradle
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# IDE - VS Code
+.vscode/
+
+# IDE - NetBeans
+nbproject/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Local configuration
+local.properties
+*.local
+
+# Credentials and secrets
+*.key
+*.pem
+*.p12
+*.jks
+credentials.json
+secrets.yml
+.env
+.env.local
+.env.*.local
+
+# Test outputs
+test-output/
+test-results/
+
+# Runtime files (Minecraft server directories at root only)
+run/
+/server/
+/world/
+/world_nether/
+/world_the_end/
+/plugins/
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# Cache
+.cache/
+*.cache
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Package files
+*.war
+*.ear
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Documentation generated
+docs/_build/
+site/
+javadoc/

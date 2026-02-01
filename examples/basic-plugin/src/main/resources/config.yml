@@ -1,0 +1,166 @@
+# ============================================================================
+# BasicPlugin Configuration
+# ============================================================================
+# This is the default configuration file for BasicPlugin.
+# It demonstrates the configuration patterns used with UnifiedPlugin API.
+#
+# Configuration is automatically loaded and validated using the
+# @ConfigSerializable annotation system. Comments are preserved
+# when the configuration is saved.
+# ============================================================================
+
+# Enable debug logging for troubleshooting
+# When enabled, additional information is logged to the console
+debug: false
+
+# Plugin language/locale setting
+# Affects message formatting and localization
+locale: en_US
+
+# ============================================================================
+# Database Settings
+# ============================================================================
+# Configure database connection for persistent data storage.
+# Supports MySQL, MariaDB, PostgreSQL, and SQLite.
+# ============================================================================
+
+database:
+  # Database server hostname
+  host: localhost
+
+  # Database server port (1-65535)
+  # Default: 3306 for MySQL/MariaDB, 5432 for PostgreSQL
+  port: 3306
+
+  # Database name
+  database: basicplugin
+
+  # Database username
+  username: root
+
+  # Database password
+  # WARNING: Consider using environment variables for production
+  # Use ${DB_PASSWORD} to read from environment variable
+  password: ""
+
+  # Connection pool size
+  # Recommended: 5-10 for small servers, 20-50 for large servers
+  pool-size: 10
+
+  # Enable connection pooling
+  # Improves performance by reusing database connections
+  pooling-enabled: true
+
+# ============================================================================
+# Message Settings
+# ============================================================================
+# Configure plugin messages using MiniMessage format.
+# Supports gradients, colors, hover text, and click actions.
+# See: https://docs.advntr.dev/minimessage/format.html
+# ============================================================================
+
+messages:
+  # Prefix for all plugin messages
+  # Appears before every message sent by the plugin
+  prefix: "<gradient:#5e4fa2:#f79459>[BasicPlugin]</gradient> "
+
+  # Message shown when a player joins
+  # Placeholders: <player> - player name
+  welcome: "<green>Welcome to the server, <player>!"
+
+  # Message shown when a player leaves
+  # Placeholders: <player> - player name
+  goodbye: "<gray><player> has left the server."
+
+  # Message shown when a command is successful
+  success: "<green>Operation completed successfully!"
+
+  # Message shown when a command fails
+  # Placeholders: <message> - error message
+  error: "<red>An error occurred: <message>"
+
+  # Message shown when player lacks permission
+  no-permission: "<red>You don't have permission to do that!"
+
+  # Message shown when command is used incorrectly
+  # Placeholders: <usage> - correct usage
+  usage: "<yellow>Usage: <usage>"
+
+# ============================================================================
+# Feature Settings
+# ============================================================================
+# Toggle individual features on or off.
+# Disabled features don't load, reducing resource usage.
+# ============================================================================
+
+features:
+  # Enable the welcome message feature
+  # Shows a welcome message when players join
+  welcome-message: true
+
+  # Enable the player list GUI
+  # Allows opening the player list with /basic gui
+  player-list-gui: true
+
+  # Enable death messages
+  # Broadcasts custom death messages
+  death-messages: true
+
+  # Enable join/quit messages
+  # Broadcasts when players join or leave
+  join-quit-messages: true
+
+  # List of enabled feature names
+  # Used for programmatic feature checking
+  enabled-features:
+    - welcome
+    - playerlist
+    - death-messages
+
+# ============================================================================
+# GUI Settings
+# ============================================================================
+# Configure graphical user interface behavior.
+# ============================================================================
+
+gui:
+  # Number of items per page in paginated GUIs (1-45)
+  # Lower values = more pages, higher values = fewer pages
+  items-per-page: 28
+
+  # Default GUI title
+  # Used when no specific title is provided
+  default-title: Menu
+
+  # Enable GUI animations
+  # Includes opening animations and transitions
+  animations: true
+
+  # Enable GUI sounds
+  # Plays sounds for clicks and navigation
+  sounds: true
+
+  # Close button slot (set to -1 to disable)
+  # Slot number where the close button appears
+  close-button-slot: 49
+
+# ============================================================================
+# Advanced Settings
+# ============================================================================
+# These settings are for advanced users and developers.
+# Modify with caution.
+# ============================================================================
+
+advanced:
+  # Enable metrics collection (bStats)
+  # Helps developers understand plugin usage
+  metrics: true
+
+  # Update checker interval in hours (0 to disable)
+  update-check-interval: 24
+
+  # Cache expiry time in minutes
+  cache-expiry: 30
+
+  # Maximum concurrent database connections
+  max-connections: 20
