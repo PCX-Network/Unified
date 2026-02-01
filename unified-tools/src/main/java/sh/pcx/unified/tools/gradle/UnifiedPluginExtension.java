@@ -8,6 +8,8 @@ import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Optional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -71,66 +73,88 @@ public abstract class UnifiedPluginExtension {
     /**
      * The plugin name.
      */
+    @Input
     public abstract Property<String> getName();
 
     /**
      * The plugin version.
      */
+    @Input
     public abstract Property<String> getVersion();
 
     /**
      * The plugin description.
      */
+    @Input
+    @Optional
     public abstract Property<String> getDescription();
 
     /**
      * The plugin author.
      */
+    @Input
+    @Optional
     public abstract Property<String> getAuthor();
 
     /**
      * List of plugin authors.
      */
+    @Input
+    @Optional
     public abstract ListProperty<String> getAuthors();
 
     /**
      * The plugin website.
      */
+    @Input
+    @Optional
     public abstract Property<String> getWebsite();
 
     /**
      * The main class (auto-detected if not specified).
      */
+    @Input
+    @Optional
     public abstract Property<String> getMain();
 
     /**
      * The UnifiedPlugin API version to use.
      */
+    @Input
     public abstract Property<String> getApiVersion();
 
     /**
      * The target Minecraft version.
      */
+    @Input
     public abstract Property<String> getMinecraftVersion();
 
     /**
      * Hard dependencies.
      */
+    @Input
+    @Optional
     public abstract ListProperty<String> getDepend();
 
     /**
      * Soft dependencies.
      */
+    @Input
+    @Optional
     public abstract ListProperty<String> getSoftDepend();
 
     /**
      * Plugins to load before this one.
      */
+    @Input
+    @Optional
     public abstract ListProperty<String> getLoadBefore();
 
     /**
      * The plugin prefix for logging.
      */
+    @Input
+    @Optional
     public abstract Property<String> getPrefix();
 
     /**
