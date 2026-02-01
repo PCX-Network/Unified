@@ -9,6 +9,7 @@ import org.gradle.api.Project;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 
 import javax.inject.Inject;
@@ -167,6 +168,7 @@ public abstract class UnifiedPluginExtension {
     /**
      * Get modules extension.
      */
+    @Internal
     public ModulesExtension getModules() {
         return modules;
     }
@@ -181,6 +183,7 @@ public abstract class UnifiedPluginExtension {
     /**
      * Get metrics extension.
      */
+    @Internal
     public MetricsExtension getMetrics() {
         return metrics;
     }
