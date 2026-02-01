@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew build --no-daemon
 
       - name: Publish SNAPSHOT to Reposilite
-        run: ./gradlew publishAllPublicationsToReposiliteRepository --no-daemon
+        run: ./gradlew publish --no-daemon
         env:
           REPOSILITE_USERNAME: ${{ secrets.REPOSILITE_USERNAME }}
           REPOSILITE_TOKEN: ${{ secrets.REPOSILITE_TOKEN }}
