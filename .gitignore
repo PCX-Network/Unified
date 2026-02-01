@@ -85,8 +85,9 @@ run/
 *.war
 *.ear
 
-# Maven
-target/
+# Maven build output (at root or direct module level only)
+/target/
+/*/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
